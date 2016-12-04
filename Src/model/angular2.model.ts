@@ -2,6 +2,7 @@
 export interface Angular2Model {
    decorators:DecoratorModel;
    class:ClassModel;
+   imports:Array<string>;
 }
 
 export interface ClassModel{
