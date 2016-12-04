@@ -106,7 +106,8 @@ export function parse(sourceFile: ts.SourceFile): Angular2Model {
                             //console.log(`return type: ${member.type.typeName.text}`);
                         }
                     } else if (member.type) {
-                        parseMethodModelLocal.returnType = member.type.kind.toString();
+                        // parseMethodModelLocal.returnType = member.type.kind.toString();
+                        parseMethodModelLocal.returnType = ts.SyntaxKind[member.type.kind];
                         //console.log(`return type: ${member.type.kind}`)
                     }
                     if (member.parameters) {
@@ -115,7 +116,7 @@ export function parse(sourceFile: ts.SourceFile): Angular2Model {
                             parseParameterModelLocal.name = parameter.name.text;
                             //console.log(`Parameter name:  ${parameter.name.text}`);
                             if (parameter.type) {
-                                parseParameterModelLocal.type = parameter.type.kind.toString();
+                                parseParameterModelLocal.type = ts.SyntaxKind[parameter.type.kind];
                                 //console.log(`Parameter type:  ${parameter.type.kind}`);
                             }
                             parseMethodModelLocal.parameters.push(parseParameterModelLocal);
