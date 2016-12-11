@@ -20,11 +20,9 @@ export function parse(sourceFile: ts.SourceFile): Angular2Model {
         },
         class: {
             name: '',
-            constructor: {
-                parameters: []
-            },
             methods: []
-        }
+        },
+        imports:[]
     }
     
     let component = angular2Class.decorators.component;
@@ -35,14 +33,12 @@ export function parse(sourceFile: ts.SourceFile): Angular2Model {
         name: '',
         decorator:'',
         parameters: [],
-        returnType: {
-            name: '',
-            type: ''
-        }
+        returnType: <ReturnTypeModel> {}
     }
     let parseParameterModel: ParameterModel = {
         name: '',
-        type: ''
+        type: '',
+        typeName:''
     };
   
     delintNode(sourceFile);
@@ -102,12 +98,13 @@ export function parse(sourceFile: ts.SourceFile): Angular2Model {
                             //console.log(`Decorator type: ${decorator.expression.expression.text}`);
                         });
                         if (member.type && member.type.typeName){
-                            parseMethodModelLocal.returnType = member.type.typeName.text;
+                            parseMethodModelLocal.returnType.name = member.type.typeName.text;
+                            parseMethodModelLocal.returnType.type =  ts.SyntaxKind[member.type.kind];
                             //console.log(`return type: ${member.type.typeName.text}`);
                         }
                     } else if (member.type) {
-                        // parseMethodModelLocal.returnType = member.type.kind.toString();
-                        parseMethodModelLocal.returnType = ts.SyntaxKind[member.type.kind];
+                        parseMethodModelLocal.returnType.name = '';
+                        parseMethodModelLocal.returnType.type= ts.SyntaxKind[member.type.kind];
                         //console.log(`return type: ${member.type.kind}`)
                     }
                     if (member.parameters) {
@@ -117,6 +114,9 @@ export function parse(sourceFile: ts.SourceFile): Angular2Model {
                             //console.log(`Parameter name:  ${parameter.name.text}`);
                             if (parameter.type) {
                                 parseParameterModelLocal.type = ts.SyntaxKind[parameter.type.kind];
+                                if(parameter.type.typeName){
+                                    parseParameterModelLocal.typeName=parameter.type.typeName.text;
+                                }
                                 //console.log(`Parameter type:  ${parameter.type.kind}`);
                             }
                             parseMethodModelLocal.parameters.push(parseParameterModelLocal);

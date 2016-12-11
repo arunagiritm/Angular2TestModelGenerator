@@ -7,7 +7,7 @@ export interface Angular2Model {
 
 export interface ClassModel{
     name: string;
-    constructor:constructorModel;
+    // constructor:constructorModel;
     methods:Array<MethodModel>;
 }
 export interface constructorModel{
@@ -26,6 +26,7 @@ export interface ReturnTypeModel{
 export interface ParameterModel{
     name: string;
     type: string;
+    typeName:string;
 }
 export interface DecoratorModel{
    component:ComponentModel;
