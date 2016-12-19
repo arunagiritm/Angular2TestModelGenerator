@@ -15,6 +15,7 @@ export interface constructorModel{
 }
 export interface MethodModel{
     name:string;
+    type:string;
     decorator:string;
     parameters:Array<ParameterModel>;
     returnType: ReturnTypeModel;

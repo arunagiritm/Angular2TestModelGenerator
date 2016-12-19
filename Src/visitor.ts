@@ -31,6 +31,7 @@ export function parse(sourceFile: ts.SourceFile): Angular2Model {
     let parseMethods = angular2Class.class.methods;
     let parseMethodModel: MethodModel = {
         name: '',
+        type:'',
         decorator:'',
         parameters: [],
         returnType: <ReturnTypeModel> {}
@@ -43,6 +44,7 @@ export function parse(sourceFile: ts.SourceFile): Angular2Model {
   
     delintNode(sourceFile);
     //console.log(JSON.stringify(angular2Class));
+    
     return angular2Class;
     function delintNode(node: ts.Node) {
         ////  console.log(`${node} : ${node.kind}`);
@@ -85,6 +87,7 @@ export function parse(sourceFile: ts.SourceFile): Angular2Model {
                 });
                 node.members.forEach(member => {
                     let parseMethodModelLocal = JSON.parse(JSON.stringify(parseMethodModel));
+                    parseMethodModelLocal.type = ts.SyntaxKind[member.kind].toString();
                     if (member.name) {
                         parseMethodModelLocal.name = member.name.text;
                         //console.log(`Member name: ${member.name.text}`);
